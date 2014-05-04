@@ -1,33 +1,19 @@
 #!/bin/sh
 # A script to install Prezto for all users using zsh on a Gentoo environment
 # (but should work on other GNU/Linux systems)
-#
-# TODO:
-# Convert this script to a shorter working .ebuild
 # 
-# Prerequisites:
-# * /etc/zsh/{zlogin|zlogout|zpreztorc|zshenv|zshrc} musn’t exist
-# * Root
-#
-# Original arch package: https://aur.archlinux.org/packages/pr/prezto-git/PKGBUILD
-#
-# Git repository : https://github.com/sorin-ionescu/prezto.git
-#
-# Depends on :
-# * zsh>=4.3.10
-# * git
-# * coreutils
-# * sed
+# License: GPLv2+
 
 srcdir='/var/tmp/portage/app-shells/prezto'
 _gitname='git'
+gitrepo='https://github.com/sorin-ionescu/prezto.git'
 mkdir -p $srcdir/$_gitname
 
 # Clean up environment first
 rm -rf /var/tmp/portage/app-shells/prezto/* # rm -rf $srcdir/* should work too
 
 # Fetch from Git into source dir
-git clone --recursive 'https://github.com/sorin-ionescu/prezto.git' $srcdir/$_gitname
+git clone --recursive $gitrepo $srcdir/$_gitname
 
 # Create /etc/zsh in src dir
 mkdir -p $srcdir/etc/zsh
