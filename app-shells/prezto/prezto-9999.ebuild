@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-shell/prezto/prezto-9999.ebuild,v 1.1 2014/05/31 18:04:11 eva Exp $
+# $Header: $
 
 EAPI="5"
 
@@ -28,7 +28,7 @@ src_prepare() {
 	# Change ~/.zprezto/ link to use /usr/lib/prezto/ instead
 	sed -i 's#\${ZDOTDIR:-\$HOME}/\.zprezto/#/usr/lib/prezto/#g' init.zsh || die
 
-	# List of files we will add, no zprofile as it is provided by app-shells/zsh already
+	# List of files we will add, no zprofile as it is provided by app-shells/zsh
 	backup=('etc/zsh/zlogin' 'etc/zsh/zlogout' 'etc/zsh/zpreztorc' 'etc/zsh/zshenv' 'etc/zsh/zshrc')
 
 	# Add sources
@@ -44,13 +44,25 @@ src_prepare() {
 }
 
 src_install() {
+	#mkdir -p /usr/lib/prezto
+	#cp -r ${srcdir/$_gitname/* /usr/lib/prezto
+
 	# Move documentation to /usr/share/doc/
-	dodoc "${WORKDIR}/${PN}-${PV}/*.md"
+	#mkdir -p /usr/share/doc/prezto
+	#mv /usr/lib/prezto/*.md /usr/share/doc/prezto
+
+	# Etc files
+	#mkdir -p /etc
+	#cp -r $srcdir/etc/zsh /etc
+
+	# Move documentation to /usr/share/doc/
+	dodoc ${S}/*.md
 
 	# Etc files
 	insinto /etc/zsh
-	doins "${WORKDIR}/${PN}-${PV}/etc/zsh"
+	doins ${S}/etc/zsh/*
 
 	# Prezto core (in /usr/lib/prezto)
-	dolib "${WORKDIR}/${PN}-${PV}/*"
+	mkdir -p ${D}usr/lib/prezto
+	cp -R ${S}/init.zsh ${S}/modules ${S}/runcoms ${D}usr/lib/prezto
 }
