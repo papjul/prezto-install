@@ -44,17 +44,6 @@ src_prepare() {
 }
 
 src_install() {
-	#mkdir -p /usr/lib/prezto
-	#cp -r ${srcdir/$_gitname/* /usr/lib/prezto
-
-	# Move documentation to /usr/share/doc/
-	#mkdir -p /usr/share/doc/prezto
-	#mv /usr/lib/prezto/*.md /usr/share/doc/prezto
-
-	# Etc files
-	#mkdir -p /etc
-	#cp -r $srcdir/etc/zsh /etc
-
 	# Move documentation to /usr/share/doc/
 	dodoc ${S}/*.md
 
