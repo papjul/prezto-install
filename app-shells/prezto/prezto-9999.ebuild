@@ -13,7 +13,7 @@ EGIT_REPO_URI="https://github.com/sorin-ionescu/prezto.git"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="app-shells/zsh"
@@ -23,35 +23,32 @@ src_prepare() {
 	sed -i 's#\${ZDOTDIR:-\$HOME}/\.zprezto/#/usr/lib/prezto/#g' init.zsh || die
 
 	# Create /etc/zsh in src dir
-	mkdir -p etc/zsh || die
-
-	# Change ~/.zprezto/ link to use /usr/lib/prezto/ instead
-	sed -i 's#\${ZDOTDIR:-\$HOME}/\.zprezto/#/usr/lib/prezto/#g' init.zsh || die
+	mkdir -p etc/zsh
 
 	# List of files we will add, no zprofile as it is provided by app-shells/zsh
 	backup=('etc/zsh/zlogin' 'etc/zsh/zlogout' 'etc/zsh/zpreztorc' 'etc/zsh/zshenv' 'etc/zsh/zshrc')
 
 	# Add sources
-	echo "source /etc/zsh/zpreztorc" > "etc/zsh/zshrc"
-	echo "source /usr/lib/prezto/init.zsh" >> "etc/zsh/zshrc"
+	echo "source /etc/zsh/zpreztorc" > etc/zsh/zshrc
+	echo "source /usr/lib/prezto/init.zsh" >> etc/zsh/zshrc
 
 	for entry in ${backup[@]}; do
 		rcfile=$(basename $entry)
 		if [ -f runcoms/$rcfile ]; then
-			echo "source /usr/lib/prezto/runcoms/$rcfile" >> "$entry"
+			echo "source /usr/lib/prezto/runcoms/$rcfile" >> $entry
 		fi
 	done
 }
 
 src_install() {
 	# Move documentation to /usr/share/doc/
-	dodoc ${S}/*.md
+	dodoc *.md
 
 	# Etc files
-	insinto /etc/zsh
-	doins ${S}/etc/zsh/*
+	insinto /etc
+	doins -r etc/zsh
 
 	# Prezto core (in /usr/lib/prezto)
-	mkdir -p ${D}usr/lib/prezto
-	cp -R ${S}/init.zsh ${S}/modules ${S}/runcoms ${D}usr/lib/prezto
+	insinto /usr/lib/prezto
+	doins -r init.zsh modules runcoms
 }
