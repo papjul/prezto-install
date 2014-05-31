@@ -19,4 +19,4 @@ Prerequisites
 Future
 ------
 
-Make an ebuild from this script.
+Working on ebuild.
